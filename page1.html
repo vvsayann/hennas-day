@@ -1,1 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Henna ❤️</title>
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffd1dc);
+overflow-x:hidden;
+cursor: url('cursor.cur') 16 16, auto;
+transition:0.4s;
+}
+.dark{
+background: linear-gradient(135deg,#1e1e2f,#3a3a5a);
+color:white;
+}
+#intro{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+z-index:999;
+}
+.container{
+max-width:850px;
+margin:60px auto;
+padding:25px;
+text-align:center;
+background:rgba(255,255,255,0.3);
+border-radius:25px;
+backdrop-filter:blur(10px);
+display:none;
+}
+.glow{
+color:#ff3d6e;
+text-shadow:0 0 10px #ff4d6d;
+}
+#typing{
+line-height:1.8;
+}
+.gallery{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:20px;
+}
+.polaroid{
+background:white;
+padding:10px 10px 25px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+transform:rotate(-2deg);
+}
+.polaroid:nth-child(2){transform:rotate(2deg);}
+.polaroid:nth-child(3){transform:rotate(-1deg);}
+.polaroid img{
+width:150px;
+border-radius:5px;
+}
+button{
+margin-top:10px;
+padding:10px 20px;
+border:none;
+background:#ff4d6d;
+color:white;
+border-radius:25px;
+cursor:pointer;
+}
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-110vh);opacity:0;}
+}
+.float-text{
+position:fixed;
+color:#ff4d6d;
+font-size:14px;
+animation: floatUp 6s linear;
+pointer-events:none;
+}
+</style>
+</head>
+<body>
 
+<div id="intro">
+<h2>Tap to open your birthday surprise 🎁</h2>
+<button id="openBtn">Open 💖</button>
+</div>
+
+<audio id="bgmusic" loop>
+<source src="song.mp3" type="audio/mp3">
+</audio>
+
+<div class="container" id="mainContent">
+<h1>Happy Birthday <span class="glow">Henna</span> ❤️</h1>
+<button id="letterBtn">Read my letter 💌</button>
+<button id="musicBtn">Pause Music 🎵</button>
+<button id="modeBtn">🌙 Toggle Mode</button>
+
+<div id="typing"></div>
+
+<div class="gallery">
+<div class="polaroid"><img src="photo1.jpeg"></div>
+<div class="polaroid"><img src="photo2.jpeg"></div>
+<div class="polaroid"><img src="photo3.jpeg"></div>
+</div>
+
+<button id="playBtn">Continue ➡️</button>
+</div>
+
+<script>
+window.onload=function(){
+
+const message = `MY HZU,
+I cant imagine spending a single day without you...
+Forever yours,
+Ayandu ❤️`;
+
+function typeWriter(){
+let i=0;
+let el=document.getElementById("typing");
+el.innerHTML="";
+function step(){
+if(i < message.length){
+let char = message[i];
+if(char === "\n"){ el.innerHTML += "<br>"; }
+else{ el.innerHTML += char; }
+i++;
+setTimeout(step,15);
+}
+}
+step();
+}
+
+openBtn.onclick=function(){
+intro.style.display="none";
+mainContent.style.display="block";
+bgmusic.volume=0.2;
+bgmusic.play();
+audioCtx.resume();
+};
+
+letterBtn.onclick=typeWriter;
+
+playBtn.onclick=function(){
+document.body.style.opacity="0";
+setTimeout(()=>{
+window.location.href="page2.html";
+},400);
+};
+
+musicBtn.onclick=function(){
+if(bgmusic.paused){
+bgmusic.play();
+musicBtn.innerText="Pause Music 🎵";
+}else{
+bgmusic.pause();
+musicBtn.innerText="Play Music 🎵";
+}
+};
+
+modeBtn.onclick=function(){
+document.body.classList.toggle("dark");
+};
+
+setInterval(()=>{
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-20px";
+h.style.fontSize="20px";
+h.style.animation="floatUp 6s linear";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},400);
+
+const texts=["I love you 💖","My girl 💕","Forever us 💞","Henna ❤️"];
+setInterval(()=>{
+let t=document.createElement("div");
+t.className="float-text";
+t.innerText=texts[Math.floor(Math.random()*texts.length)];
+t.style.left=Math.random()*100+"vw";
+t.style.bottom="-20px";
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),6000);
+},1500);
+
+document.addEventListener("mousemove",function(e){
+let heart=document.createElement("div");
+heart.innerHTML="💖";
+heart.style.position="fixed";
+heart.style.left=e.clientX+"px";
+heart.style.top=e.clientY+"px";
+heart.style.pointerEvents="none";
+heart.style.transition="0.6s";
+document.body.appendChild(heart);
+setTimeout(()=>{
+heart.style.transform="translateY(-20px)";
+heart.style.opacity="0";
+},10);
+setTimeout(()=>heart.remove(),600);
+});
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const source = audioCtx.createMediaElementSource(bgmusic);
+const analyser = audioCtx.createAnalyser();
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+analyser.fftSize = 64;
+const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+function animateGlow(){
+requestAnimationFrame(animateGlow);
+analyser.getByteFrequencyData(dataArray);
+let sum=0;
+for(let i=0;i<dataArray.length;i++){ sum+=dataArray[i]; }
+let avg=sum/dataArray.length;
+let glow = avg/2;
+document.querySelector(".glow").style.textShadow = `
+0 0 ${glow}px #ff4d6d,
+0 0 ${glow*2}px #ff4d6d,
+0 0 ${glow*3}px #ff4d6d`;
+}
+animateGlow();
+
+};
+</script>
+
+</body>
+</html>
