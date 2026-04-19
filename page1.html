@@ -139,7 +139,10 @@ letterBtn.onclick=typeWriter;
 playBtn.onclick=function(){
 secret.style.display="block";
 setTimeout(()=>{
+document.body.style.opacity="0";
+setTimeout(()=>{
 window.location.href="page2.html";
+},400);
 },2000);
 };
 
