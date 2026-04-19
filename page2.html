@@ -1,1 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
 
+<style>
+*{
+-webkit-tap-highlight-color: transparent;
+}
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffd1dc);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+height:100vh;
+text-align:center;
+cursor: url('cursor.cur') 16 16, auto;
+padding:15px;
+}
+
+.box{
+background:rgba(255,255,255,0.3);
+padding:25px;
+border-radius:25px;
+backdrop-filter:blur(10px);
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
+width:90%;
+max-width:400px;
+}
+
+.glow{
+color:#ff3d6e;
+text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
+}
+
+button{
+margin-top:10px;
+padding:12px;
+border:none;
+background:#ff4d6d;
+color:white;
+border-radius:25px;
+cursor:pointer;
+width:100%;
+font-size:15px;
+}
+
+h1{font-size:22px;}
+h2{font-size:18px;}
+p{font-size:14px;}
+
+#quiz,#final{display:none;}
+</style>
+</head>
+
+<body>
+
+<audio id="bgmusic" loop>
+<source src="song.mp3" type="audio/mp3">
+</audio>
+
+<div class="box" id="start">
+<h1 class="glow">Hey Henna ❤️</h1>
+<p>There’s something special waiting for you… 💌</p>
+<button onclick="toggleMusic()" id="musicBtn">Play Music 🎵</button>
+<button onclick="startQuiz()">Continue ➡️</button>
+</div>
+
+<div class="box" id="quiz">
+<h2 id="q"></h2>
+<div id="answers"></div>
+<p id="res"></p>
+</div>
+
+<div class="box" id="final">
+<h2 class="glow">YAYYY U GOT IT! ❤️</h2>
+<p>I WILL ALWAYS BE URS 💖</p>
+</div>
+
+<script>
+const music=document.getElementById("bgmusic");
+const musicBtn=document.getElementById("musicBtn");
+
+function toggleMusic(){
+if(music.paused){
+music.volume=0.2;
+music.play();
+musicBtn.innerText="Pause Music 🎵";
+}else{
+music.pause();
+musicBtn.innerText="Play Music 🎵";
+}
+}
+
+const data=[
+{q:"How much do I love you?",a:["A MILLION INFINITY","A MILLION QUINTILLION INFINITY","A MILLION INFINITY","MORE THAN THE AMOUNT OF NUMBERS THERE R"],c:3},
+{q:"What is my fav moment with you when we met?",a:["Hugging you","Kissing you","Cuddling you","Showering with you"],c:2},
+{q:"What is my fav part about you?",a:["Your eyes","Your hair","Your body","Your humour & music taste"],c:0},
+{q:"What color shirt was I wearing in Lahore?",a:["white","grey","black","red"],c:1},
+{q:"Whos the better clove player?",a:["henna","ayandu"],c:0},
+{q:"Who loves Henna the most?",a:["ayan","ayan","ayan","ayan"],c:"all"}
+];
+
+let i=0;
+
+function startQuiz(){
+start.style.display="none";
+quiz.style.display="block";
+load();
+}
+
+function load(){
+q.innerText=data[i].q;
+answers.innerHTML="";
+data[i].a.forEach((opt,idx)=>{
+let b=document.createElement("button");
+b.innerText=opt;
+b.onclick=()=>check(idx);
+answers.appendChild(b);
+});
+res.innerText="";
+}
+
+function check(x){
+if(data[i].c==="all"||x===data[i].c){
+res.innerText="Correct 💖";
+i++;
+if(i<data.length){
+setTimeout(load,500);
+}else{
+quiz.style.display="none";
+final.style.display="block";
+for(let j=0;j<50;j++){
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+h.style.transition="1s";
+document.body.appendChild(h);
+setTimeout(()=>{h.style.opacity="0";h.style.transform="translateY(-50px)";},10);
+setTimeout(()=>h.remove(),1000);
+}
+}
+}else{
+res.innerText="wrong answer, u getting spankies now 😭";
+}
+}
+
+document.addEventListener("mousemove",e=>{
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=e.clientX+"px";
+h.style.top=e.clientY+"px";
+h.style.pointerEvents="none";
+document.body.appendChild(h);
+setTimeout(()=>{h.style.opacity="0";h.style.transform="translateY(-20px)";},10);
+setTimeout(()=>h.remove(),500);
+});
+</script>
+
+</body>
+</html>
