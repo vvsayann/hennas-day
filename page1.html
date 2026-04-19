@@ -3,6 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Henna ❤️</title>
+
 <style>
 body{
 margin:0;
@@ -11,7 +12,10 @@ background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffd1dc);
 overflow-x:hidden;
 cursor: url('cursor.cur') 16 16, auto;
 transition:0.4s;
+opacity:1;
 }
+.fade-out{opacity:0;}
+
 #intro{
 position:fixed;
 top:0;left:0;
@@ -23,6 +27,7 @@ flex-direction:column;
 background: linear-gradient(135deg,#ffdde1,#ee9ca7);
 z-index:999;
 }
+
 .container{
 max-width:850px;
 margin:40px auto;
@@ -33,16 +38,19 @@ border-radius:25px;
 backdrop-filter:blur(10px);
 display:none;
 }
+
 .glow{
 color:#ff3d6e;
 text-shadow:0 0 10px #ff4d6d;
 }
+
 #typing{
 line-height:1.8;
 white-space:pre-line;
 word-wrap:break-word;
 font-size:15px;
 }
+
 .gallery{
 display:flex;
 gap:15px;
@@ -50,16 +58,19 @@ flex-wrap:wrap;
 justify-content:center;
 margin-top:20px;
 }
+
 .polaroid{
 background:white;
 padding:10px 10px 25px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
+
 .polaroid img{
 width:140px;
 border-radius:5px;
 }
+
 button{
 margin-top:10px;
 padding:10px 20px;
@@ -87,7 +98,7 @@ cursor:pointer;
 <h1>Happy Birthday <span class="glow">Henna</span> ❤️</h1>
 
 <button id="letterBtn">Read my letter 💌</button>
-<button id="musicBtn">Pause Music 🎵</button>
+<button id="musicBtn">Play Music 🎵</button>
 
 <div id="typing"></div>
 
@@ -99,17 +110,38 @@ cursor:pointer;
 
 <button id="playBtn">Final Surprise 💖</button>
 <div id="secret" style="display:none;">I WILL ALWAYS BE URS ❤️</div>
+
 </div>
 
 <script>
+const music=document.getElementById("bgmusic");
+const musicBtn=document.getElementById("musicBtn");
+
+/* ✅ SYNC MUSIC */
+window.onload=function(){
+let time=localStorage.getItem("musicTime");
+let playing=localStorage.getItem("musicPlaying");
+
+if(time) music.currentTime=time;
+
+if(playing==="true"){
+music.volume=0.2;
+music.play();
+musicBtn.innerText="Pause Music 🎵";
+}
+};
+
+/* save music state */
+setInterval(()=>{
+localStorage.setItem("musicTime",music.currentTime);
+localStorage.setItem("musicPlaying",!music.paused);
+},500);
+
+/* LETTER */
 const message = `MY HZU,
-
 I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
-
 I Love you and always will in this life and others as well, if i could get chance to relive life i'd want you to be my gf in every. There is something about you that makes life livable, enjoyable, happy and most importantly makes life look different. I never knew someone could have this much impact on me but for 2 years we've met everything is just better man
-
 Im sorry for hurting you whenever i did and i promise ill makeup for everything 
-
 Forever yours,
 Ayandu ❤️`;
 
@@ -117,6 +149,7 @@ function typeWriter(){
 let i=0;
 let el=document.getElementById("typing");
 el.innerHTML="";
+
 function step(){
 if(i < message.length){
 el.innerHTML += message[i];
@@ -127,19 +160,25 @@ setTimeout(step,12);
 step();
 }
 
+/* OPEN PAGE */
 openBtn.onclick=function(){
 intro.style.display="none";
 mainContent.style.display="block";
-bgmusic.volume=0.2;
-bgmusic.play();
+
+if(music.paused){
+music.volume=0.2;
+music.play();
+musicBtn.innerText="Pause Music 🎵";
+}
 };
 
+/* BUTTONS */
 letterBtn.onclick=typeWriter;
 
 playBtn.onclick=function(){
 secret.style.display="block";
 setTimeout(()=>{
-document.body.style.opacity="0";
+document.body.classList.add("fade-out");
 setTimeout(()=>{
 window.location.href="page2.html";
 },400);
@@ -147,15 +186,16 @@ window.location.href="page2.html";
 };
 
 musicBtn.onclick=function(){
-if(bgmusic.paused){
-bgmusic.play();
+if(music.paused){
+music.play();
 musicBtn.innerText="Pause Music 🎵";
 }else{
-bgmusic.pause();
+music.pause();
 musicBtn.innerText="Play Music 🎵";
 }
 };
 
+/* 💖 CURSOR TRAIL */
 document.addEventListener("mousemove",function(e){
 let h=document.createElement("div");
 h.innerHTML="💖";
