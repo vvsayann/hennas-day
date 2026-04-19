@@ -113,9 +113,20 @@ border-radius:15px;
 const music=document.getElementById("bgmusic");
 const musicBtn=document.getElementById("musicBtn");
 
+window.onload=()=>{
+let time=localStorage.getItem("musicTime");
+if(time){
+music.currentTime=time;
+}
+music.volume=0.2;
+};
+
+setInterval(()=>{
+localStorage.setItem("musicTime",music.currentTime);
+},1000);
+
 function toggleMusic(){
 if(music.paused){
-music.volume=0.2;
 music.play();
 musicBtn.innerText="Pause Music 🎵";
 }else{
