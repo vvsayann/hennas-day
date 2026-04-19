@@ -12,10 +12,6 @@ overflow-x:hidden;
 cursor: url('cursor.cur') 16 16, auto;
 transition:0.4s;
 }
-.dark{
-background: linear-gradient(135deg,#1e1e2f,#3a3a5a);
-color:white;
-}
 #intro{
 position:fixed;
 top:0;left:0;
@@ -29,7 +25,7 @@ z-index:999;
 }
 .container{
 max-width:850px;
-margin:60px auto;
+margin:40px auto;
 padding:25px;
 text-align:center;
 background:rgba(255,255,255,0.3);
@@ -43,6 +39,9 @@ text-shadow:0 0 10px #ff4d6d;
 }
 #typing{
 line-height:1.8;
+white-space:pre-line;
+word-wrap:break-word;
+font-size:15px;
 }
 .gallery{
 display:flex;
@@ -56,12 +55,9 @@ background:white;
 padding:10px 10px 25px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
-transform:rotate(-2deg);
 }
-.polaroid:nth-child(2){transform:rotate(2deg);}
-.polaroid:nth-child(3){transform:rotate(-1deg);}
 .polaroid img{
-width:150px;
+width:140px;
 border-radius:5px;
 }
 button{
@@ -73,19 +69,9 @@ color:white;
 border-radius:25px;
 cursor:pointer;
 }
-@keyframes floatUp{
-0%{transform:translateY(0);opacity:1;}
-100%{transform:translateY(-110vh);opacity:0;}
-}
-.float-text{
-position:fixed;
-color:#ff4d6d;
-font-size:14px;
-animation: floatUp 6s linear;
-pointer-events:none;
-}
 </style>
 </head>
+
 <body>
 
 <div id="intro">
@@ -99,9 +85,9 @@ pointer-events:none;
 
 <div class="container" id="mainContent">
 <h1>Happy Birthday <span class="glow">Henna</span> ❤️</h1>
+
 <button id="letterBtn">Read my letter 💌</button>
 <button id="musicBtn">Pause Music 🎵</button>
-<button id="modeBtn">🌙 Toggle Mode</button>
 
 <div id="typing"></div>
 
@@ -111,14 +97,19 @@ pointer-events:none;
 <div class="polaroid"><img src="photo3.jpeg"></div>
 </div>
 
-<button id="playBtn">Continue ➡️</button>
+<button id="playBtn">Final Surprise 💖</button>
+<div id="secret" style="display:none;">I WILL ALWAYS BE URS ❤️</div>
 </div>
 
 <script>
-window.onload=function(){
-
 const message = `MY HZU,
-I cant imagine spending a single day without you...
+
+I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
+
+I Love you and always will in this life and others as well, if i could get chance to relive life i'd want you to be my gf in every. There is something about you that makes life livable, enjoyable, happy and most importantly makes life look different. I never knew someone could have this much impact on me but for 2 years we've met everything is just better man
+
+Im sorry for hurting you whenever i did and i promise ill makeup for everything 
+
 Forever yours,
 Ayandu ❤️`;
 
@@ -128,11 +119,9 @@ let el=document.getElementById("typing");
 el.innerHTML="";
 function step(){
 if(i < message.length){
-let char = message[i];
-if(char === "\n"){ el.innerHTML += "<br>"; }
-else{ el.innerHTML += char; }
+el.innerHTML += message[i];
 i++;
-setTimeout(step,15);
+setTimeout(step,12);
 }
 }
 step();
@@ -143,16 +132,15 @@ intro.style.display="none";
 mainContent.style.display="block";
 bgmusic.volume=0.2;
 bgmusic.play();
-audioCtx.resume();
 };
 
 letterBtn.onclick=typeWriter;
 
 playBtn.onclick=function(){
-document.body.style.opacity="0";
+secret.style.display="block";
 setTimeout(()=>{
 window.location.href="page2.html";
-},400);
+},2000);
 };
 
 musicBtn.onclick=function(){
@@ -165,72 +153,17 @@ musicBtn.innerText="Play Music 🎵";
 }
 };
 
-modeBtn.onclick=function(){
-document.body.classList.toggle("dark");
-};
-
-setInterval(()=>{
+document.addEventListener("mousemove",function(e){
 let h=document.createElement("div");
 h.innerHTML="💖";
 h.style.position="fixed";
-h.style.left=Math.random()*100+"vw";
-h.style.bottom="-20px";
-h.style.fontSize="20px";
-h.style.animation="floatUp 6s linear";
+h.style.left=e.clientX+"px";
+h.style.top=e.clientY+"px";
+h.style.pointerEvents="none";
 document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-},400);
-
-const texts=["I love you 💖","My girl 💕","Forever us 💞","Henna ❤️"];
-setInterval(()=>{
-let t=document.createElement("div");
-t.className="float-text";
-t.innerText=texts[Math.floor(Math.random()*texts.length)];
-t.style.left=Math.random()*100+"vw";
-t.style.bottom="-20px";
-document.body.appendChild(t);
-setTimeout(()=>t.remove(),6000);
-},1500);
-
-document.addEventListener("mousemove",function(e){
-let heart=document.createElement("div");
-heart.innerHTML="💖";
-heart.style.position="fixed";
-heart.style.left=e.clientX+"px";
-heart.style.top=e.clientY+"px";
-heart.style.pointerEvents="none";
-heart.style.transition="0.6s";
-document.body.appendChild(heart);
-setTimeout(()=>{
-heart.style.transform="translateY(-20px)";
-heart.style.opacity="0";
-},10);
-setTimeout(()=>heart.remove(),600);
+setTimeout(()=>{h.style.opacity="0";h.style.transform="translateY(-20px)";},10);
+setTimeout(()=>h.remove(),600);
 });
-
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const source = audioCtx.createMediaElementSource(bgmusic);
-const analyser = audioCtx.createAnalyser();
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-analyser.fftSize = 64;
-const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-function animateGlow(){
-requestAnimationFrame(animateGlow);
-analyser.getByteFrequencyData(dataArray);
-let sum=0;
-for(let i=0;i<dataArray.length;i++){ sum+=dataArray[i]; }
-let avg=sum/dataArray.length;
-let glow = avg/2;
-document.querySelector(".glow").style.textShadow = `
-0 0 ${glow}px #ff4d6d,
-0 0 ${glow*2}px #ff4d6d,
-0 0 ${glow*3}px #ff4d6d`;
-}
-animateGlow();
-
-};
 </script>
 
 </body>
