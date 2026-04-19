@@ -3,7 +3,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You my shoni❤️</title>
-
 <style>
 body{
 margin:0;
@@ -20,11 +19,9 @@ color:#333;
 transition:0.4s;
 opacity:1;
 }
-
 .fade-out{
 opacity:0;
 }
-
 .box{
 background:rgba(255,255,255,0.3);
 padding:30px;
@@ -34,12 +31,10 @@ box-shadow:0 10px 40px rgba(0,0,0,0.2);
 max-width:400px;
 width:90%;
 }
-
 .glow{
 color:#ff3d6e;
 text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
 }
-
 button{
 margin-top:12px;
 padding:12px;
@@ -51,7 +46,10 @@ cursor:pointer;
 width:100%;
 font-size:15px;
 }
-
+#continueBtn{
+opacity:0.5;
+pointer-events:none;
+}
 #yesBtn{
 width:80px;
 height:80px;
@@ -63,7 +61,6 @@ font-size:16px;
 margin:auto;
 display:block;
 }
-
 #giftBox{
 display:none;
 font-size:60px;
@@ -71,30 +68,25 @@ margin-top:20px;
 cursor:pointer;
 animation: bounce 1s infinite alternate;
 }
-
 @keyframes bounce{
 from{transform:translateY(0);}
 to{transform:translateY(-10px);}
 }
-
 #cake{
 display:none;
 margin-top:20px;
 animation: pop 0.5s ease;
 }
-
 #cake img{
 width:180px;
 border-radius:15px;
 }
-
 @keyframes pop{
 0%{transform:scale(0);}
 100%{transform:scale(1);}
 }
 </style>
 </head>
-
 <body>
 
 <audio id="bgmusic" loop>
@@ -114,12 +106,14 @@ border-radius:15px;
 </div>
 
 <button id="musicBtn" onclick="toggleMusic()">Play Music 🎵</button>
-<button onclick="goMain()">Continue ➡️</button>
+
+<button id="continueBtn" onclick="goNext()">Continue ➡️</button>
 </div>
 
 <script>
 const music=document.getElementById("bgmusic");
 const musicBtn=document.getElementById("musicBtn");
+const continueBtn=document.getElementById("continueBtn");
 
 function toggleMusic(){
 if(music.paused){
@@ -132,10 +126,10 @@ musicBtn.innerText="Play Music 🎵";
 }
 }
 
-function goMain(){
+function goNext(){
 document.body.classList.add("fade-out");
 setTimeout(()=>{
-window.location.href="main.html";
+window.location.href="page1.html";
 },500);
 }
 
@@ -151,6 +145,10 @@ giftBox.style.display="block";
 giftBox.onclick=function(){
 giftBox.style.display="none";
 cake.style.display="block";
+
+/* unlock continue */
+continueBtn.style.opacity="1";
+continueBtn.style.pointerEvents="auto";
 };
 
 document.addEventListener("mousemove",function(e){
@@ -162,12 +160,10 @@ heart.style.top=e.clientY+"px";
 heart.style.pointerEvents="none";
 heart.style.transition="0.6s";
 document.body.appendChild(heart);
-
 setTimeout(()=>{
 heart.style.transform="translateY(-20px)";
 heart.style.opacity="0";
 },10);
-
 setTimeout(()=>heart.remove(),600);
 });
 </script>
