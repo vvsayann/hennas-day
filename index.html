@@ -19,66 +19,65 @@ color:#333;
 transition:0.4s;
 opacity:1;
 }
-.fade-out{
-opacity:0;
-}
+.fade-out{opacity:0;}
 .box{
 background:rgba(255,255,255,0.3);
-padding:30px;
+padding:40px;
 border-radius:25px;
 backdrop-filter:blur(10px);
 box-shadow:0 10px 40px rgba(0,0,0,0.2);
-max-width:400px;
-width:90%;
+max-width:500px;
+width:95%;
 }
 .glow{
+font-size:26px;
 color:#ff3d6e;
 text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
 }
 button{
-margin-top:12px;
-padding:12px;
+margin-top:15px;
+padding:14px;
 border:none;
 background:#ff4d6d;
 color:white;
 border-radius:25px;
 cursor:pointer;
 width:100%;
-font-size:15px;
+font-size:16px;
 }
 #continueBtn{
 opacity:0.5;
 pointer-events:none;
 }
 #yesBtn{
-width:80px;
-height:80px;
+width:100px;
+height:100px;
 border-radius:50%;
-border:2px solid #ff4d6d;
+border:3px solid #ff4d6d;
 background:transparent;
 color:#ff4d6d;
-font-size:16px;
+font-size:18px;
 margin:auto;
 display:block;
 }
 #giftBox{
 display:none;
-font-size:60px;
-margin-top:20px;
+font-size:90px;
+margin-top:25px;
 cursor:pointer;
 animation: bounce 1s infinite alternate;
 }
 @keyframes bounce{
 from{transform:translateY(0);}
-to{transform:translateY(-10px);}
+to{transform:translateY(-15px);}
 }
 #cake{
 display:none;
-margin-top:20px;
+margin-top:25px;
 animation: pop 0.5s ease;
 }
 #cake img{
-width:180px;
+width:260px;
 border-radius:15px;
 }
 @keyframes pop{
@@ -106,14 +105,13 @@ border-radius:15px;
 </div>
 
 <button id="musicBtn" onclick="toggleMusic()">Play Music 🎵</button>
+<button id="continueBtn" onclick="goMain()">Continue ➡️</button>
 
-<button id="continueBtn" onclick="goNext()">Continue ➡️</button>
 </div>
 
 <script>
 const music=document.getElementById("bgmusic");
 const musicBtn=document.getElementById("musicBtn");
-const continueBtn=document.getElementById("continueBtn");
 
 function toggleMusic(){
 if(music.paused){
@@ -126,7 +124,7 @@ musicBtn.innerText="Play Music 🎵";
 }
 }
 
-function goNext(){
+function goMain(){
 document.body.classList.add("fade-out");
 setTimeout(()=>{
 window.location.href="page1.html";
@@ -136,6 +134,7 @@ window.location.href="page1.html";
 const yesBtn=document.getElementById("yesBtn");
 const giftBox=document.getElementById("giftBox");
 const cake=document.getElementById("cake");
+const continueBtn=document.getElementById("continueBtn");
 
 yesBtn.onclick=function(){
 yesBtn.style.display="none";
@@ -145,8 +144,6 @@ giftBox.style.display="block";
 giftBox.onclick=function(){
 giftBox.style.display="none";
 cake.style.display="block";
-
-/* unlock continue */
 continueBtn.style.opacity="1";
 continueBtn.style.pointerEvents="auto";
 };
